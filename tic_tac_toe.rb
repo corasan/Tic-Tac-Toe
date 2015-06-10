@@ -1,136 +1,48 @@
-# #create Player class
-# class Player
-#     attr_reader :name, :mark, :mark
-#     def initialize(mark=nil, mark=nil)
-#         @name = name
-#         @mark = mark
-#         @mark = mark
-#         new_player
-#     end
-    
-#     def new_player
-#         print "Enter your name: " # ask player for a name
-#         @name = gets.chomp
-#     end
-# end
-
-# #player_one = Player.new("X")
-# #puts  "#{player_one.mark}"
-# #puts "Player 1: #{player_one.ntame}"
-# #player_two = Player.new(nil, "O")
-# #puts  "#{player_two.mark}"
-# #puts "Player 2: #{player_two.name}"
-
-# class Game
-#     def game_board
-#         player_one = Player.new("X") # creates player 1 assigning the markbol X
-#         #puts  "#{player_one.mark}"
-#         puts "Player 1: #{player_one.name}" # gets the name of the player from new_player method
-    
-#         @grid = {"1" => " ", # hash with the position on the board as key and an empty string as value
-#             "2" => " ",
-#             "3" => " ",
-#             "4" => " ",
-#             "5" => " ",
-#             "6" => " ",
-#             "7" => " ",
-#             "8" => " ",
-#             "9" => " "
-#         }
-#         # draw the board
-#         def board
-#             #TODO make this into a loop
-#             puts " #{@grid["1"]} | #{@grid["2"]} | #{@grid["3"]}"
-#             puts "---|---|---"
-#             puts " #{@grid["4"]} | #{@grid["5"]} | #{@grid["6"]}"
-#             puts "---|---|---"
-#             puts " #{@grid["7"]} | #{@grid["8"]} | #{@grid["9"]}"
-#         end
-        
-        
-        
-        
-#         i = 0 
-#         while i < 10 do
-#             # ask the player where he/she wants to play and assigns the user input to the variable move
-#             print "Where do you want to place your mark? "
-#             move = gets.chomp
-            
-#             # the case statement replace the key value(empty string) with X
-#             case move
-#             when "1"
-#                 @grid["1"] = player_one.mark
-#             when "2"
-#                 @grid["2"] = player_one.mark
-#             when "3"
-#                 @grid["3"] = player_one.mark
-#             when "4"
-#                 @grid["4"] = player_one.mark
-#             when "5"
-#                 @grid["5"] = player_one.mark
-#             when "6"
-#                 @grid["6"] = player_one.mark
-#             when "7"
-#                 @grid["7"] = player_one.mark
-#             when "8"
-#                 @grid["8"] = player_one.mark
-#             when "9"
-#                 @grid["9"] = player_one.mark
-#             end
-#             board
-#             i += 1
-#         end
-#     end
-# end
-
-# new_game = Game.new
-# new_game.game_board
-
-
-
-
 #create Player class
 class Player
     attr_reader :name, :mark
-    def initialize(grid, mark=nil)
-        @@grid = grid
+    def initialize(board_grid, mark=nil)
+        @@board_grid = board_grid
         @name = name
         @mark = mark
-        new_player
+        new_player # initialize the new_player method to ask for the name everytime a new player is created
     end
     
     def new_player
-        print "Enter your name: " # ask player for a name
+        print "please enter your name: " # ask players for a name
         @name = gets.chomp
     end
     
-    def won?
-        (@@grid["1"] == self.mark && @@grid["4"] == self.mark && @@grid["7"] == self.mark) || # first column
-        (@@grid["2"] == self.mark && @@grid["5"] == self.mark && @@grid["8"] == self.mark) || # second column
-        (@@grid["3"] == self.mark && @@grid["6"] == self.mark && @@grid["9"] == self.mark) || # third column
-        
-        (@@grid["1"] == self.mark && @@grid["2"] == self.mark && @@grid["3"] == self.mark) || # first row
-        (@@grid["4"] == self.mark && @@grid["5"] == self.mark && @@grid["6"] == self.mark) || # second row
-        (@@grid["7"] == self.mark && @@grid["8"] == self.mark && @@grid["9"] == self.mark) || # third row
-        
-        (@@grid["1"] == self.mark && @@grid["5"] == self.mark && @@grid["9"] == self.mark) ||# diagonal one
-        (@@grid["3"] == self.mark && @@grid["5"] == self.mark && @@grid["7"] == self.mark) # diagonal two
+    def won? # Not working
+        # horizontal wins
+        if @@board_grid["1"] && @@board_grid["2"] && @@board_grid["3"] == self.mark # first row
+            puts "#{self.name} won!"
+        elsif @@board_grid["4"] && @@board_grid["5"] && @@board_grid["6"] == self.mark # second row
+            puts "#{self.name} won!"
+        elsif @@board_grid["7"] && @@board_grid["8"] && @@board_grid["9"] == self.mark # third row
+            puts "#{self.name} won!"
+        # Vertical wins
+        elsif @@board_grid["1"] && @@board_grid["4"] && @@board_grid["7"] == self.mark # first column
+            puts "#{self.name} won!"
+        elsif @@board_grid["2"] && @@board_grid["5"] && @@board_grid["8"] == self.mark # second column
+            puts "#{self.name} won!"
+        elsif @@board_grid["3"] && @@board_grid["6"] && @@board_grid["9"] == self.mark # third column
+            puts "#{self.name} won!"
+        # Diagonal wins
+        elsif @@board_grid["1"] && @@board_grid["5"] && @@board_grid["9"] == self.mark # diagonal 1
+            puts "#{self.name} won!"
+        elsif @@board_grid["3"] && @@board_grid["5"] && @@board_grid["7"] == self.mark # diagonal 2
+            puts "#{self.name} won!"
+        end
     end
     
 end
 
-#player_one = Player.new("X")
-#puts  "#{player_one.mark}"
-#puts "Player 1: #{player_one.ntame}"
-#player_two = Player.new(nil, "O")
-#puts  "#{player_two.mark}"
-#puts "Player 2: #{player_two.name}"
-
 class Game
-    attr_reader :grid
+    attr_reader :board_grid
     
     def initialize
-        @grid = {"1" => " ", # hash with the position on the board as key and an empty string as value
+        @board_grid = {"1" => " ", # hash with the position on the board as key and an empty string as value
                  "2" => " ",
                  "3" => " ",
                  "4" => " ",
@@ -140,49 +52,47 @@ class Game
                  "8" => " ",
                  "9" => " "
         }
-        @player_one = Player.new(grid, "X") # creates player 1 assigning the mark X
-        @player_two = Player.new(grid, "O") # creates player 2 assigning the mark O
-    end
-    
-    def tie?
-        !self.not_full? && !(@player_one.won? || @player_one.won?)
+        print "Player 1, "
+        @player_one = Player.new(board_grid, "X") # creates player 1 assigning the mark X
+        print "Player 2, "
+        @player_two = Player.new(board_grid, "O") # creates player 2 assigning the mark O
     end
     
     def game_board
+        puts "Player 1: #{@player_one.name} is X" # gets the name of the player from new_player method
+        puts "Player 2: #{@player_two.name} is O"
+        puts "Instructions: Enter the position(number) where you want to place the mark. See the example below."
+        self.board(true) # display to the user the positions where they can put their marks
         
-        #puts  "#{player_one.mark}"
-        puts "Player 1: #{@player_one.name}" # gets the name of the player from new_player method
-        
-        puts "Player 2: #{@player_two.name}"
-        self.board(true) # display to the user where they can put their mark
-
-        while self.not_full? || (!(@player_one.won? || @player_two.won?)) || self.tie? do
-            # ask the player where he/she wants to play and assigns the user input to the variable move
+        # this loop will run while theres an empty space on the grid or if a player wins (not working)
+        while @board_grid.has_value?(" ") || (@player_one.won? || @player_two.won?)
+            
+            # ask the player where he/she wants to place the mark and assigns the user input to the variable move
             print "#{@player_one.name}, Where do you want to place your mark? "
             move = gets.chomp
-            
-            # the case statement replace the key value(empty string) with X
+
+            # the case statement replace the key value(empty string) with the player mark, in this case th
             case move
             when "1"
-                @grid["1"] = @player_one.mark if @grid["1"] == " "
+                @board_grid["1"] = @player_one.mark if @board_grid["1"] == " "
             when "2"
-                @grid["2"] = @player_one.mark if @grid["2"] == " "
+                @board_grid["2"] = @player_one.mark if @board_grid["2"] == " "
             when "3"
-                @grid["3"] = @player_one.mark if @grid["3"] == " "
+                @board_grid["3"] = @player_one.mark if @board_grid["3"] == " "
             when "4"
-                @grid["4"] = @player_one.mark if @grid["4"] == " "
+                @board_grid["4"] = @player_one.mark if @board_grid["4"] == " "
             when "5"
-                @grid["5"] = @player_one.mark if @grid["5"] == " "
+                @board_grid["5"] = @player_one.mark if @board_grid["5"] == " "
             when "6"
-                @grid["6"] = @player_one.mark if @grid["6"] == " "
+                @board_grid["6"] = @player_one.mark if @board_grid["6"] == " "
             when "7"
-                @grid["7"] = @player_one.mark if @grid["7"] == " "
+                @board_grid["7"] = @player_one.mark if @board_grid["7"] == " "
             when "8"
-                @grid["8"] = @player_one.mark if @grid["8"] == " "
+                @board_grid["8"] = @player_one.mark if @board_grid["8"] == " "
             when "9"
-                @grid["9"] = @player_one.mark if @grid["9"] == " "
+                @board_grid["9"] = @player_one.mark if @board_grid["9"] == " "
             else
-                puts "ERROR! You cannot place it there!"
+                puts "ERROR! Invalid input!"
             end
             board
             
@@ -191,50 +101,40 @@ class Game
             
             case move
             when "1"
-                @grid["1"] = @player_two.mark if @grid["1"] == " "
+                @board_grid["1"] = @player_two.mark if @board_grid["1"] == " "
             when "2"
-                @grid["2"] = @player_two.mark if @grid["2"] == " "
+                @board_grid["2"] = @player_two.mark if @board_grid["2"] == " "
             when "3"
-                @grid["3"] = @player_two.mark if @grid["3"] == " "
+                @board_grid["3"] = @player_two.mark if @board_grid["3"] == " "
             when "4"
-                @grid["4"] = @player_two.mark if @grid["4"] == " "
+                @board_grid["4"] = @player_two.mark if @board_grid["4"] == " "
             when "5"
-                @grid["5"] = @player_two.mark if @grid["5"] == " "
+                @board_grid["5"] = @player_two.mark if @board_grid["5"] == " "
             when "6"
-                @grid["6"] = @player_two.mark if @grid["6"] == " "
+                @board_grid["6"] = @player_two.mark if @board_grid["6"] == " "
             when "7"
-                @grid["7"] = @player_two.mark if @grid["7"] == " "
+                @board_grid["7"] = @player_two.mark if @board_grid["7"] == " "
             when "8"
-                @grid["8"] = @player_two.mark if @grid["8"] == " "
+                @board_grid["8"] = @player_two.mark if @board_grid["8"] == " "
             when "9"
-                @grid["9"] = @player_two.mark if @grid["9"] == " "
+                @board_grid["9"] = @player_two.mark if @board_grid["9"] == " "
             else 
-                puts "ERROR! You cannot place it there!"
+                puts "ERROR! Invalid input!"
             end
             board
-            
         end
     end
     
-    def not_full?
-        # Checks if the hash at that given position has a value
-        not_full = @grid.any? { |key, value| value == " "}
-    end
-         # draw the board
-    def board(tutorial=false)
-        #TODO make this into a loop
-        
-        # if tutorial is true, display the board with numbers instead of user entered marks
-        puts tutorial ? " 1 | 2 | 3" : " #{@grid["1"]} | #{@grid["2"]} | #{@grid["3"]}"
+    # draw the board
+    def board(instruction=false)
+        # if instruction is true, display the board with numbers instead of user entered marks
+        puts instruction ? " 1 | 2 | 3" : " #{@board_grid["1"]} | #{@board_grid["2"]} | #{@board_grid["3"]}"
         puts "---|---|---"
-        puts tutorial ? " 4 | 5 | 6" : " #{@grid["4"]} | #{@grid["5"]} | #{@grid["6"]}"
+        puts instruction ? " 4 | 5 | 6" : " #{@board_grid["4"]} | #{@board_grid["5"]} | #{@board_grid["6"]}"
         puts "---|---|---"
-        puts tutorial ? " 7 | 8 | 9" : " #{@grid["7"]} | #{@grid["8"]} | #{@grid["9"]}"
+        puts instruction ? " 7 | 8 | 9" : " #{@board_grid["7"]} | #{@board_grid["8"]} | #{@board_grid["9"]}"
     end
 end
 
-new_game = Game.new
-new_game.game_board
-
-#puts "true " if true
-#puts "false " if false
+new_game = Game.new # create a new game
+new_game.game_board # start the game board
