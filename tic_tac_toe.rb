@@ -42,7 +42,7 @@ class Game
     attr_reader :board_grid
     
     def initialize
-        @board_grid = {"1" => " ", # hash with the position on the board as key and an empty string as value
+        @board_grid = {"1" => " ", # hash with the position on the board as key and a blank space as value
                  "2" => " ",
                  "3" => " ",
                  "4" => " ",
@@ -62,16 +62,16 @@ class Game
         puts "Player 1: #{@player_one.name} is X" # gets the name of the player from new_player method
         puts "Player 2: #{@player_two.name} is O"
         puts "Instructions: Enter the position(number) where you want to place the mark. See the example below."
-        self.board(true) # display to the user the positions where they can put their marks
+        board(true) # display to the user the positions where they can put their marks
         
         # this loop will run while theres an empty space on the grid or if a player wins (not working)
-        while @board_grid.has_value?(" ") || (@player_one.won? || @player_two.won?)
+        while @board_grid.has_value?(" ")
             
             # ask the player where he/she wants to place the mark and assigns the user input to the variable move
             print "#{@player_one.name}, Where do you want to place your mark? "
             move = gets.chomp
 
-            # the case statement replace the key value(empty string) with the player mark, in this case th
+            # the case statement replace the key value(blank space) with the player mark, in this case th
             case move
             when "1"
                 @board_grid["1"] = @player_one.mark if @board_grid["1"] == " "
@@ -136,5 +136,5 @@ class Game
     end
 end
 
-new_game = Game.new # create a new game
-new_game.game_board # start the game board
+new_game = Game.new # create an instance of the Game class
+new_game.game_board # starts the game
