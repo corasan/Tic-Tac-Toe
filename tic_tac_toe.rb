@@ -13,33 +13,25 @@ class Player
         @name = gets.chomp
     end
     
-    def won? # Not working
+    def won? # checks if the player won(fixed)
         # horizontal wins
         if @@board_grid["1"] == self.mark && @@board_grid["2"] == self.mark && @@board_grid["3"] == self.mark # first row
-            puts "#{self.name} won!"
             return true
         elsif @@board_grid["4"] == self.mark && @@board_grid["5"] == self.mark && @@board_grid["6"] == self.mark # second row
-            puts "#{self.name} won!"
             return true
         elsif @@board_grid["7"] == self.mark && @@board_grid["8"] == self.mark && @@board_grid["9"] == self.mark # third row
-            puts "#{self.name} won!"
             return true
         # Vertical wins
         elsif @@board_grid["1"] == self.mark && @@board_grid["4"] == self.mark && @@board_grid["7"] == self.mark # first column
-            puts "#{self.name} won!"
             return true
         elsif @@board_grid["2"] == self.mark && @@board_grid["5"] == self.mark && @@board_grid["8"] == self.mark # second column
-            puts "#{self.name} won!"
             return true
         elsif @@board_grid["3"] == self.mark && @@board_grid["6"] == self.mark && @@board_grid["9"] == self.mark # third column
-            puts "#{self.name} won!"
             return true
         # Diagonal wins
         elsif @@board_grid["1"] == self.mark && @@board_grid["5"] == self.mark && @@board_grid["9"] == self.mark # diagonal 1
-            puts "#{self.name} won!"
             return true
         elsif @@board_grid["3"] == self.mark && @@board_grid["5"] == self.mark && @@board_grid["7"] == self.mark # diagonal 2
-            puts "#{self.name} won!"
             return true
         else
             return false
@@ -68,7 +60,7 @@ class Game
         @player_two = Player.new(board_grid, "O") # creates player 2 assigning the mark O
     end
     
-    def tie?
+    def tie? # checks if its a tie
         !(@player_one.won? || @player_two.won?)
     end
     
@@ -78,10 +70,10 @@ class Game
         puts "Instructions: Enter the position(number) where you want to place the mark. See the example below."
         board(true) # display to the user the positions where they can put their marks
         
-        player = 1
-        # this loop will run while theres an empty space on the grid or if a player wins (not working)
+        turn = 1
+        # this loop will run while theres an empty space on the grid or if a player wins(fixed)
         while @board_grid.has_value?(" ")
-            if player % 2 == 0 #even
+            if turn % 2 == 0 # player_one will always have an odd number as a turn. If its an even number then its player_two turn.
                 current_user = @player_two
             else
                 current_user = @player_one
@@ -91,7 +83,7 @@ class Game
             move = gets.chomp
 
             
-            # the case statement replace the key value(blank space) with the player mark, in this case is player_one
+            # the case statement replace the key value(blank space) with the player mark
             case move
             when "1"
                 @board_grid["1"] = current_user.mark if @board_grid["1"] == " "
@@ -116,11 +108,14 @@ class Game
             end
             board #display the updated board
             
-            player += 1 # select the next user
+            turn += 1 # increments turn
             
-            break if current_user.won?
+            if current_user.won? # if a player won display the name of the player.
+                puts "#{current_user.name} WON!"
+                break
+            end
         end
-        puts "Tie!" if tie?
+        puts "TIE!" if tie? # if its a tie inform the user its a tie
     end
     
     # draw the board
@@ -136,24 +131,3 @@ end
 
 new_game = Game.new # create a new game
 new_game.game_board # start the game board
-
-# #pseudo-code
-# p1 p2 p1 p2 p1 p2 p1 p2
-# 1  2  3  4  5  6  7  8
-
-# p1 p1 p1 p1
-# 1  3  5  7  (odd)
-# p2 p2 p2 p2
-# 2  4  6  8 (even)
-
-# count = 1;
-# inside the loop do
-#     if count % 2 == 0 #even
-#         current_user = player2
-#     else
-#         current_user = player1
-#     end
-        
-#     current_user = (player1 if odd) || (player2 if even)
-#     @board_grid["1"] = current_user.mark if @board_grid["1"] == " "
-# end
